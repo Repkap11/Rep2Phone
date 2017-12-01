@@ -1,1 +1,1 @@
-include ':app', ':Rep2PhoneNotifier'
+include ':app'

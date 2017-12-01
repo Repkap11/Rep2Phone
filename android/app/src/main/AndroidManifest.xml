@@ -1,56 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.repkap11.burger">
+    package="com.repkap11.rep2phone">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".Rep2PhoneApplication"
+        android:name="com.repkap11.rep2phone.Rep2PhoneApplication"
         android:allowBackup="true"
-        android:icon="@drawable/burger_icon"
+        android:icon="@drawable/rep2phone_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.UsersFractivity"
+            android:name="com.repkap11.rep2phone.activities.UsersFractivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.LunchLocationsFractivity"
+            android:name="com.repkap11.rep2phone.activities.LunchLocationsFractivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.LunchLocationsTodayFractivity"
+            android:name="com.repkap11.rep2phone.activities.LunchLocationsTodayFractivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.AddLunchLocationFractivity"
+            android:name="com.repkap11.rep2phone.activities.AddLunchLocationFractivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name=".activities.AddLunchGroupFractivity"
+            android:name="com.repkap11.rep2phone.activities.AddLunchGroupFractivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name=".activities.EditUserFractivity"
+            android:name="com.repkap11.rep2phone.activities.EditUserFractivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name=".activities.AboutUserFractivity"
+            android:name="com.repkap11.rep2phone.activities.AboutUserFractivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.LunchGroupsFractivity"
+            android:name="com.repkap11.rep2phone.activities.LunchGroupsFractivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.SignInFractivity"
+            android:name="com.repkap11.rep2phone.activities.SignInFractivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name="com.repkap11.rep2phone.activities.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name=".activities.TabFractivity"
+            android:name="com.repkap11.rep2phone.activities.TabFractivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".Launcher"
+            android:name="com.repkap11.rep2phone.Launcher"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -61,7 +61,7 @@
         </activity>
 
         <provider
-            android:name=".GenericFileProvider"
+            android:name="com.repkap11.rep2phone.GenericFileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -70,12 +70,12 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <service android:name=".services.ServiceInstanceIdChange">
+        <service android:name="com.repkap11.rep2phone.services.ServiceInstanceIdChange">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".services.ServiceRep2PhoneNotifications">
+        <service android:name="com.repkap11.rep2phone.services.ServiceRep2PhoneNotifications">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

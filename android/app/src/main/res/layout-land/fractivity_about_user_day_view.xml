@@ -7,7 +7,7 @@
     android:layout_margin="1dp"
     android:layout_weight="1"
     android:orientation="vertical"
-    tools:context="com.repkap11.burger.activities.AboutUserFractivity"
+    tools:context="com.repkap11.rep2phone.activities.AboutUserFractivity"
     tools:showIn="@layout/fractivity_about_user">
 
     <TextView
