@@ -1,0 +1,65 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion '26.0.2'
+    defaultConfig {
+        applicationId "com.repkap11.rep2phone"
+        minSdkVersion 19
+        targetSdkVersion 25
+        versionCode file("Rep2PhoneVersion").text.trim().toInteger().intValue()
+        versionName "0." + file("Rep2PhoneVersion").text.trim()
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    signingConfigs {
+        debug {
+            storePassword file('Rep2PhoneKeyStorePassword').text.trim()
+            keyAlias "Repkap11"
+            keyPassword file('Rep2PhoneKeyStorePassword').text.trim()
+            storeFile file('Rep2PhoneKeyStore')
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE-FIREBASE.txt'
+        exclude 'META-INF/NOTICE'
+    }
+    flavorDimensions "def_dim"
+    productFlavors {
+        live {
+            dimension "def_dim"
+        }
+        staging {
+            dimension "def_dim"
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.google.firebase:firebase-database:11.0.4'
+    compile 'com.firebase:firebase-jobdispatcher:0.6.0'
+    compile 'com.google.android.gms:play-services-base:11.0.4'
+    compile 'com.google.firebase:firebase-core:11.0.4'
+    compile 'com.google.firebase:firebase-messaging:11.0.4'
+    compile 'com.google.firebase:firebase-auth:11.0.4'
+    compile 'com.google.android.gms:play-services-auth:11.0.4'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:support-vector-drawable:25.3.1'
+    testCompile 'junit:junit:4.12'
+}
+apply plugin: 'com.google.gms.google-services'

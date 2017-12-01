@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "952267240108",
+    "firebase_url": "https://rep2phone.firebaseio.com",
+    "project_id": "rep2phone",
+    "storage_bucket": "rep2phone.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:952267240108:android:70dc81e53812d7d6",
+        "android_client_info": {
+          "package_name": "com.repkap11.rep2phone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "952267240108-onhf49ohvf8m69k06cl8h14qmig98trh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.repkap11.rep2phone",
+            "certificate_hash": "606992a76bc525bd4f22c27821ccc0250306dd0c"
+          }
+        },
+        {
+          "client_id": "952267240108-d84usmtcfckorek2pll5cg3mic6e4bhm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuqHQ1Ty5JOO71RYovy17FaTf2InTzxlM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "952267240108-d84usmtcfckorek2pll5cg3mic6e4bhm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
