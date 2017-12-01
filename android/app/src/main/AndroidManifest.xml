@@ -13,41 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.repkap11.rep2phone.activities.UsersFractivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="com.repkap11.rep2phone.activities.LunchLocationsFractivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="com.repkap11.rep2phone.activities.LunchLocationsTodayFractivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="com.repkap11.rep2phone.activities.AddLunchLocationFractivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateVisible" />
-        <activity
-            android:name="com.repkap11.rep2phone.activities.AddLunchGroupFractivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateVisible" />
-        <activity
-            android:name="com.repkap11.rep2phone.activities.EditUserFractivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateVisible" />
-        <activity
-            android:name="com.repkap11.rep2phone.activities.AboutUserFractivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="com.repkap11.rep2phone.activities.LunchGroupsFractivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name="com.repkap11.rep2phone.activities.SignInFractivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.repkap11.rep2phone.activities.SettingsActivity"
             android:label="@string/title_activity_settings" />
-        <activity
-            android:name="com.repkap11.rep2phone.activities.TabFractivity"
-            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name="com.repkap11.rep2phone.Launcher"

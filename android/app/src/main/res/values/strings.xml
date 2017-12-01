@@ -29,7 +29,8 @@
     </string-array>
 
     <string name="fractivity_sign_in_message">Sign up for Rep2Phone</string>
-    <string name="fractivity_sign_in_with_google">Sign in</string>
+    <string name="fractivity_sign_in_with_google">Sign In</string>
+    <string name="fractivity_sign_out_with_google">Sign Out</string>
 
     <string name="fractivity_lunch_groups_top_message">Rep2Phone will automatically match you with compatible partners in your Lunch Group</string>
     <string name="fractivity_lunch_groups_bottom_message">To change groups log out then back in</string>
@@ -60,7 +61,7 @@
 
 
 
-    <string name="root_key_lunch_groups">lunch_groups</string>
+    <string name="root_key">user_group</string>
     <string name="tell_them_im_driving">Tell them: I\'ll Drive</string>
     <plurals name="fractivity_lunch_locations_today_users_plural">
         <item quantity="one">%d person</item>
@@ -76,5 +77,6 @@
     <string name="weird_beer_friday">Weird Beer Friday</string>
     <string name="fractivity_about_user_no_car_size_set">Set car size with \"Edit\"</string>
     <string name="tell_them_im_driving_pending">Notification Pending</string>
+    <string name="fractivity_sign_in_signed_in_as">Signed in as: %s</string>
 
 </resources>

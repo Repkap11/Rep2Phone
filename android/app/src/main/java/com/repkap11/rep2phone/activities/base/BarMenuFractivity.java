@@ -74,8 +74,8 @@ public abstract class BarMenuFractivity extends Fractivity<Fractivity.Fractivity
                 boolean needsNewTrigger = mUpdateMenuItem == null;
                 mUpdateMenuItem = menu.findItem(R.id.action_update);
                 mUpdateMenuItem.setShowAsAction(mShowingAsActionFlag);
-                String groupKey = Rep2PhoneApplication.getUserPerferedLunchGroup(getActivity());
-                if (groupKey != null && needsNewTrigger) {
+                String groupKey = Rep2PhoneApplication.getGroupKey(getActivity());
+                if (needsNewTrigger) {
                     String userKey = Rep2PhoneApplication.getUserKey(getActivity());
                     if (userKey != null) {
                         //Log.e(TAG, "Starting signed in user:" + userKey);
@@ -83,7 +83,7 @@ public abstract class BarMenuFractivity extends Fractivity<Fractivity.Fractivity
                         DatabaseReference appVersionRef = database.getReference(userKey).child(User.getAppVersionLink());
                         appVersionRef.setValue(mCurrentAppVersionNumber);
                     }
-                    DatabaseReference groupsAppVersionRef = FirebaseDatabase.getInstance().getReference(groupKey).getParent().child("appVersion");
+                    DatabaseReference groupsAppVersionRef = FirebaseDatabase.getInstance().getReference(groupKey).child("appVersion");
                     groupsAppVersionRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -136,29 +136,12 @@ public abstract class BarMenuFractivity extends Fractivity<Fractivity.Fractivity
                 case R.id.action_update:
                     startUpdateAppProcedure();
                     break;
-                case R.id.action_sign_out:
-                    triggerLogOut();
-                    break;
                 default:
                     Toast.makeText(getActivity(), "Other selected", Toast.LENGTH_SHORT).show();
                     break;
 
             }
             return false;
-        }
-
-        private void triggerLogOut() {
-            Rep2PhoneApplication.updateDeviceToken(getActivity(), false);
-            Rep2PhoneApplication.setUserPerferedLunchGroup(getActivity(), null);
-            FirebaseAuth.getInstance().signOut();
-            Auth.GoogleSignInApi.signOut(mGoogleAPIClient).setResultCallback(new ResultCallback<Status>() {
-                @Override
-                public void onResult(@NonNull Status status) {
-                    Intent intent = new Intent(getActivity(), SignInFractivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                }
-            });
         }
 
         private void startUpdateAppProcedure() {
@@ -184,15 +167,6 @@ public abstract class BarMenuFractivity extends Fractivity<Fractivity.Fractivity
         @Override
         @CallSuper
         protected void create(Bundle savedInstanceState) {
-            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken(getString(R.string.default_web_client_id))
-                    .requestEmail()
-                    .build();
-            mGoogleAPIClient = new GoogleApiClient.Builder(
-                    getActivity())
-                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                    .build();
-            mGoogleAPIClient.connect();
         }
 
 

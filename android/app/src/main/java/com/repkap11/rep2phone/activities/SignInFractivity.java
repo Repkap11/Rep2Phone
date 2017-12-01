@@ -16,9 +16,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.repkap11.rep2phone.Rep2PhoneApplication;
 import com.repkap11.rep2phone.R;
 import com.repkap11.rep2phone.activities.base.Fractivity;
-import com.repkap11.rep2phone.fragments.LunchGroupsFractivityFragment;
 import com.repkap11.rep2phone.fragments.SignInFractivityFragment;
-import com.repkap11.rep2phone.fragments.TabFractivityFragment;
 
 
 public class SignInFractivity extends Fractivity {
@@ -26,7 +24,6 @@ public class SignInFractivity extends Fractivity {
     private static final String TAG = SignInFractivity.class.getSimpleName();
     public static final int REQUEST_CODE_SIGN_IN = 43;
     private FirebaseAuth mAuth;
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,38 +41,21 @@ public class SignInFractivity extends Fractivity {
         Rep2PhoneApplication.updateDeviceToken(this, result);
         //Log.e(TAG, "instanceToken:" + instanceToken);
 
-        String groupKey = Rep2PhoneApplication.getUserPerferedLunchGroup(this);
-        if (groupKey != null) {
-            String rootGroupsName = FirebaseDatabase.getInstance().getReference(groupKey).getParent().getKey();
-            if (rootGroupsName != null) {
-                String expectedRootGroup = getResources().getString(R.string.root_key_lunch_groups);
-                if (!expectedRootGroup.equals(rootGroupsName)) {
-                    Log.e(TAG, "Wrong root group expected:" + expectedRootGroup + " got:" + rootGroupsName);
-                    Toast.makeText(this, "", Toast.LENGTH_SHORT);
-                    Rep2PhoneApplication.setUserPerferedLunchGroup(this, null);
-                }
+        String groupKey = Rep2PhoneApplication.getGroupKey(this);
+        String rootGroupsName = FirebaseDatabase.getInstance().getReference(groupKey).getParent().getKey();
+        if (rootGroupsName != null) {
+            String expectedRootGroup = getResources().getString(R.string.root_key);
+            if (!expectedRootGroup.equals(rootGroupsName)) {
+                Log.e(TAG, "Wrong root group expected:" + expectedRootGroup + " got:" + rootGroupsName);
+                Toast.makeText(this, "Wrong group Do something?", Toast.LENGTH_SHORT);
+                //TODO Do something if you change groups by switing to dev
+                //Rep2PhoneApplication.setUserPerferedLunchGroup(this, null);
             }
         }
         if (currentUser != null) {
-            //Log.e(TAG, "Sign in done in create for:" + currentUser);
-            //continueAfterSignIn();
-            String perferedGroup = Rep2PhoneApplication.getUserPerferedLunchGroup(this);
-            //Log.e(TAG, "Starting signed in user with preferedGroup:" + perferedGroup);
-            if (perferedGroup == null) {
-                return new LunchGroupsFractivityFragment();
-            } else {
-                return new TabFractivityFragment();
-            }
-        } else {
-            return new SignInFractivityFragment();
+            //Toast.makeText(this, "Already logged in", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public void continueAfterSignIn() {
-        Intent intent = new Intent(this, LunchGroupsFractivity.class);
-        //Clear the back stack
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+        return new SignInFractivityFragment();
     }
 
 
