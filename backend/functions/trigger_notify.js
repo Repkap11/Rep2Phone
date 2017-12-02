@@ -10,7 +10,37 @@ const admin = require('firebase-admin');
 exports.trigger_notify =
     function trigger_notify(event) {
   console.log('We got event!');
-  console.error(event.data.current.val());
+  // console.error(event.data.current.val());
+  var allRemovePromises = [];
+  var allDevicesPromises = [];
+  event.data.current.forEach(function(uniqSnapshot) {
+    var message = uniqSnapshot.val();
+    console.log('Got uniq:' + uniqSnapshot.key + ' val:' + message);
+
+    allDevicesPromises.push(
+        event.data.ref.parent.child('devices').once('value').then(
+            function(devicesSnapshot) {
+              var allDevicePromise = [];
+              devicesSnapshot.forEach(function(deviceSnapshot) {
+                console.error('Will notify device:' + deviceSnapshot.key);
+                var title = 'Test notification';
+                var body = 'Notifying this persion';
+                const payload = {
+                  data: {
+                    title: title,
+                    body: message,
+                  }
+                };
+                allDevicePromise.push(
+                    admin.messaging().sendToDevice(
+                        deviceSnapshot.key, payload));
+              });
+              return Promise.all(allDevicePromise);
+            }));
+    allRemovePromises.push(uniqSnapshot.ref.remove());
+  });
+  return Promise.all(
+      [Promise.all(allRemovePromises), Promise.all(allDevicesPromises)]);
 }
 // exports.trigger_notify = function trigger_notify(event) {
 //   // When a user changes their preference for any day, we get a message here
