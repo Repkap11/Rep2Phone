@@ -41,8 +41,15 @@ public class ServiceRep2PhoneNotifications extends FirebaseMessagingService {
                     body = notification.getBody();
                 }
             }
-            sendNotification(title, body);
+            //sendNotification(title, body);
+            openBrowser(body);
         }
+    }
+
+    private void openBrowser(String url) {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
     }
 
     private void sendNotification(String title, String body) {
