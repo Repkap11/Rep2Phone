@@ -1,6 +1,10 @@
 send2Phone = function(word) {
   var query = btoa(word.linkUrl);
-  var userId = firebase.auth().currentUser.uid;
+  var user = firebase.auth().currentUser;
+  if (user == null) {
+    return;
+  }
+  var userId = user.uid;
   var notifyRef =
       firebase.database().ref('/user_group/users/' + userId + "/notify/");
   // Create a unique ref with the query of its data
