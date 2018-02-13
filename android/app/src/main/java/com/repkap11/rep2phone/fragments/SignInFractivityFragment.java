@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.repkap11.rep2phone.R;
 import com.repkap11.rep2phone.Rep2PhoneApplication;
+import com.repkap11.rep2phone.activities.SettingsActivity;
 import com.repkap11.rep2phone.activities.SignInFractivity;
 import com.repkap11.rep2phone.activities.base.Fractivity;
 
@@ -54,10 +56,25 @@ public class SignInFractivityFragment extends Fractivity.FractivityFragment impl
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                //Toast.makeText(getActivity(), "Settings selected", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(intent);
+                return true;
+        }
+        return false;
+    }
+
+    @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fractivity_sign_in, container, false);
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.fractivity_bar_menu_app_bar_layout);
         toolbar.setTitle(R.string.fractivity_sign_in_title);
+        setHasOptionsMenu(true);
+        ((Fractivity) getActivity()).setSupportActionBar(toolbar);
+
         mSignInButton = (SignInButton) rootView.findViewById(R.id.sign_in_button);
         mSignedInDisplayName = (TextView) rootView.findViewById(R.id.fractivity_sign_in_display_name);
         mSignInButton.setOnClickListener(new View.OnClickListener() {

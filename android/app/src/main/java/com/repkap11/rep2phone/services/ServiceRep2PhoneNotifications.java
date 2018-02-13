@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -41,7 +42,7 @@ public class ServiceRep2PhoneNotifications extends FirebaseMessagingService {
                     body = notification.getBody();
                 }
             }
-            //sendNotification(title, body);
+            sendNotification(title, body);
             openBrowser(body);
         }
     }
@@ -53,35 +54,43 @@ public class ServiceRep2PhoneNotifications extends FirebaseMessagingService {
     }
 
     private void sendNotification(String title, String body) {
-        Log.e(TAG, "Notification Message Title: " + title + " body:" + body);
+        //Log.e(TAG, "Notification Message Title: " + title + " body:" + body);
 
         Intent intent = new Intent(this, SignInFractivity.class);
         //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.setAction(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        //PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean enableLED = prefs.getBoolean(SettingsActivity.PREF_NOTIFICATIONS_LED, true);
         String ringToneURI = prefs.getString(SettingsActivity.PREF_NOTIFICATIONS_RINGTONE, getResources().getString(R.string.pref_notifications_ringtone_default));
         boolean enableVibrate = prefs.getBoolean(SettingsActivity.PREF_NOTIFICATIONS_VIBRATE, true);
+        boolean showNotification = prefs.getBoolean(SettingsActivity.PREF_NOTIFICATIONS_NOTIFY, true);
         Uri ringtoneUri = Uri.parse(ringToneURI);
 
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setDefaults(Notification.DEFAULT_LIGHTS|Notification.DEFAULT_SOUND|Notification.DEFAULT_LIGHTS)
                 .setSmallIcon(R.drawable.rep2phone_notification_icon)
                 .setContentTitle(title == null ? getResources().getString(R.string.app_name) : title)
                 .setContentText(body)
                 .setAutoCancel(true)
                 .setSound(ringtoneUri)
-                .setContentIntent(pendingIntent)
-                .setPriority(Notification.PRIORITY_HIGH);
+                //.setContentIntent(pendingIntent)
+                .setPriority(Notification.PRIORITY_LOW);
         if (enableVibrate) {
-            notificationBuilder.setVibrate(new long[]{0, 300, 300, 300});
-        }
-        if (enableLED) {
-            notificationBuilder.setLights(Color.RED, 1000, 1000);
+            //notificationBuilder.setVibrate(new long[]{0, 300, 300, 300});
+            if (!showNotification){
+                Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                if (vib != null) {
+                    vib.vibrate(new long[] { 50, 150, 150, 150, 150}, -1);
+                }
+            } else {
+                notificationBuilder.setVibrate(new long[] { 50, 150, 150, 150, 150});
+            }
+        } else {
+            notificationBuilder.setVibrate(new long[]{0});
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -89,12 +98,14 @@ public class ServiceRep2PhoneNotifications extends FirebaseMessagingService {
         } else {
             notificationBuilder.setColor(getResources().getColor(R.color.colorAccent));
         }
-        //
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         int randomId = new Random().nextInt();
         notificationManager.notify(randomId, notificationBuilder.build());
+        if (!showNotification) {
+            notificationManager.cancel(randomId);
+        }
     }
 
 

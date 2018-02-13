@@ -5,6 +5,12 @@
         android:key="pref_notifications_enabled"
         android:title="@string/pref_notifications_enabled_title" />
 
+    <SwitchPreference
+        android:defaultValue="true"
+        android:dependency="pref_notifications_enabled"
+        android:key="pref_notifications_notify"
+        android:title="@string/pref_notifications_notify" />
+
     <RingtonePreference
         android:defaultValue="@string/pref_notifications_ringtone_default"
         android:dependency="pref_notifications_enabled"
@@ -16,12 +22,9 @@
         android:defaultValue="true"
         android:dependency="pref_notifications_enabled"
         android:key="pref_notifications_vibrate"
-        android:title="@string/pref_notifications_vibrate_title" />
-
-    <SwitchPreference
-        android:defaultValue="true"
-        android:dependency="pref_notifications_enabled"
-        android:key="pref_notifications_led"
-        android:title="@string/pref_notifications_led_title" />
+        android:title="@string/pref_notifications_vibrate_title" />\
 
 </PreferenceScreen>
+
+
+
