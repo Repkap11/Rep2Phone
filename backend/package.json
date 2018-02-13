@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "firebase-functions": "^0.8.1",
     "n": "^2.1.8",
     "stable": "^0.1.6"
   },

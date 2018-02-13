@@ -23,8 +23,7 @@ exports.trigger_notify =
               var allDevicePromise = [];
               devicesSnapshot.forEach(function(deviceSnapshot) {
                 console.error('Will notify device:' + deviceSnapshot.key);
-                var title = 'Test notification';
-                var body = 'Notifying this persion';
+                var title = 'Opening Link';
                 const payload = {
                   data: {
                     title: title,
