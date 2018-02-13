@@ -40,12 +40,18 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <service android:name="com.repkap11.rep2phone.services.ServiceInstanceIdChange">
+        <service
+            android:name="com.repkap11.rep2phone.services.ServiceInstanceIdChange"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service android:name="com.repkap11.rep2phone.services.ServiceRep2PhoneNotifications">
+        <service
+            android:name="com.repkap11.rep2phone.services.ServiceRep2PhoneNotifications"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
