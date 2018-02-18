@@ -74,19 +74,6 @@ public class SignInFractivityFragment extends Fractivity.FractivityFragment impl
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fractivity_sign_in, container, false);
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.fractivity_bar_menu_app_bar_layout);
-        Button button = (Button) rootView.findViewById(R.id.fractivity_sign_in_test_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if (user == null){
-                    Log.e(TAG,"Unable to send message, not signed in");
-                }
-                DatabaseReference ref = database.getReference("/user_group/users/"+user.getUid()+"/notify_pc");
-                ref.push().setValue("http://www.repkap11.com");
-            }
-        });
         toolbar.setTitle(R.string.fractivity_sign_in_title);
         setHasOptionsMenu(true);
         ((Fractivity) getActivity()).setSupportActionBar(toolbar);

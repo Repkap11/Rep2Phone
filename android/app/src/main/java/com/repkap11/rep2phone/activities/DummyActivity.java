@@ -1,9 +1,8 @@
-package com.repkap11.rep2phone;
+package com.repkap11.rep2phone.activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;

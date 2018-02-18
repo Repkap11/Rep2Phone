@@ -10,12 +10,6 @@
         <item name="colorControlNormal">#c5c5c5</item>
         <item name="colorControlHighlight">@color/colorAccent</item>
         <item name="colorControlActivated">@color/colorAccent</item>
-        <item name="android:textCursorDrawable">@drawable/color_cursor</item>
-    </style>
-
-
-    <style name="AppTheme.NoAnimations" parent="AppTheme.NoActionBar">
-        <item name="android:windowAnimationStyle">@null</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
@@ -28,13 +22,6 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="AppTheme.Translucent">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@android:style/Animation</item>
-    </style>
 
     <style name="AppTheme.Transparent" parent="android:Theme">
         <item name="android:windowIsTranslucent">true</item>
