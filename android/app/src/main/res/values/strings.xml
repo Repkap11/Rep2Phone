@@ -58,9 +58,6 @@
     <string name="pref_about_build_flavor">Build Flavor</string>
 
 
-
-
-
     <string name="root_key">user_group</string>
     <string name="tell_them_im_driving">Tell them: I\'ll Drive</string>
     <plurals name="fractivity_lunch_locations_today_users_plural">

@@ -7,21 +7,20 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:name="com.repkap11.rep2phone.Rep2PhoneApplication"
+        android:name=".Rep2PhoneApplication"
         android:allowBackup="true"
         android:icon="@drawable/rep2phone_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.repkap11.rep2phone.activities.SignInFractivity"
+            android:name=".activities.SignInFractivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.repkap11.rep2phone.activities.SettingsActivity"
+            android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings" />
-
         <activity
-            android:name="com.repkap11.rep2phone.Launcher"
+            android:name=".Launcher"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -32,7 +31,7 @@
         </activity>
 
         <provider
-            android:name="com.repkap11.rep2phone.GenericFileProvider"
+            android:name=".GenericFileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -42,7 +41,7 @@
         </provider>
 
         <service
-            android:name="com.repkap11.rep2phone.services.ServiceInstanceIdChange"
+            android:name=".services.ServiceInstanceIdChange"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -50,13 +49,35 @@
             </intent-filter>
         </service>
         <service
-            android:name="com.repkap11.rep2phone.services.ServiceRep2PhoneNotifications"
+            android:name=".services.ServiceRep2PhoneNotifications"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <activity
+            android:name=".DummyActivity"
+            android:theme="@style/AppTheme.Transparent">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:mimeType="text/*"></data>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

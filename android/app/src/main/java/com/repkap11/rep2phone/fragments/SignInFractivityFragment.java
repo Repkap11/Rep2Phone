@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.repkap11.rep2phone.R;
 import com.repkap11.rep2phone.Rep2PhoneApplication;
 import com.repkap11.rep2phone.activities.SettingsActivity;
@@ -71,6 +74,19 @@ public class SignInFractivityFragment extends Fractivity.FractivityFragment impl
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fractivity_sign_in, container, false);
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.fractivity_bar_menu_app_bar_layout);
+        Button button = (Button) rootView.findViewById(R.id.fractivity_sign_in_test_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user == null){
+                    Log.e(TAG,"Unable to send message, not signed in");
+                }
+                DatabaseReference ref = database.getReference("/user_group/users/"+user.getUid()+"/notify_pc");
+                ref.push().setValue("http://www.repkap11.com");
+            }
+        });
         toolbar.setTitle(R.string.fractivity_sign_in_title);
         setHasOptionsMenu(true);
         ((Fractivity) getActivity()).setSupportActionBar(toolbar);

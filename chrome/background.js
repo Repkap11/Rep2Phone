@@ -10,6 +10,7 @@ var config = {
   messagingSenderId: "952267240108"
 };
 firebase.initializeApp(config);
+const messaging = firebase.messaging();
 
 /**
  * initApp handles setting up the Firebase context and registering
@@ -29,10 +30,26 @@ firebase.initializeApp(config);
 function initApp() {
   // Listen for auth state changes.
   firebase.auth().onAuthStateChanged(function(user) {
-    console.log(
-        'User state change detected from the Background script of the Chrome Extension:',
-        user);
+    console.log('User state change detected from the Background script of the Chrome Extension');//,user);
+    startListening();
   });
+}
+
+function startListening() {
+  var user = firebase.auth().currentUser;
+  if (user == null) {
+    //return;
+  }
+  var userId = user.uid;
+  var ref = firebase.database().ref('/user_group/users/' + userId + "/notify_pc/");
+  ref.on('child_added', function(snapshot) {
+  var newURL = snapshot.val();
+  console.log('Got a result:',newURL);
+  chrome.tabs.create({ url: newURL });
+  snapshot.ref.remove();
+  });
+  console.log('Listening started');
+
 }
 
 window.onload = function() {

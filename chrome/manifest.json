@@ -5,7 +5,10 @@
     "permissions": [
         "contextMenus",
         "identity",
-        "tabs"
+        "tabs",
+        "notifications",
+        "gcm",
+        "storage"
     ],
     "browser_action": {
         "default_popup": "credentials.html"
@@ -13,6 +16,8 @@
     "background": {
         "page": "background.html"
     },
+    //"gcm_sender_id": "103953800507",
+    //"gcm_user_visible_only": true,
     // Adding https://www.gstatic.com/ to the external scripts authorized domains so we can import the firebase JS SDK and access the Realtime Database as well as Firebase Storage.
     "content_security_policy": "script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'",
     "oauth2": {
