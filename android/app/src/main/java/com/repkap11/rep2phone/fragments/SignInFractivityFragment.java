@@ -1,8 +1,12 @@
 package com.repkap11.rep2phone.fragments;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +36,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.repkap11.rep2phone.R;
 import com.repkap11.rep2phone.Rep2PhoneApplication;
+import com.repkap11.rep2phone.UpdateAppTask;
 import com.repkap11.rep2phone.activities.SettingsActivity;
 import com.repkap11.rep2phone.activities.SignInFractivity;
 import com.repkap11.rep2phone.activities.base.Fractivity;
@@ -44,6 +49,7 @@ import org.w3c.dom.Text;
 public class SignInFractivityFragment extends Fractivity.FractivityFragment implements GoogleApiClient.OnConnectionFailedListener {
     public static final String STARTING_INTENT_WHICH_LUNCH_GROUP = "com.repkap11.rep2phone.STARTING_INTENT_WHICH_LUNCH_GROUP";
     private static final String TAG = SignInFractivityFragment.class.getSimpleName();
+    private static final int REQUEST_CODE_ASK_FOR_WRITE_EXPERNAL_PERMISSION = 44;
 
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth;
@@ -66,8 +72,31 @@ public class SignInFractivityFragment extends Fractivity.FractivityFragment impl
                 Intent intent = new Intent(getActivity(), SettingsActivity.class);
                 startActivity(intent);
                 return true;
+            case R.id.action_update:
+                startUpdateAppProcedure();
+                return true;
         }
         return false;
+    }
+
+    private void startUpdateAppProcedure() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_FOR_WRITE_EXPERNAL_PERMISSION);
+                return;
+            }
+        }
+        continueUpdateAppWithPermissions();
+    }
+
+
+    @Override
+    public void requestPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
+        continueUpdateAppWithPermissions();
+    }
+
+    private void continueUpdateAppWithPermissions() {
+        new UpdateAppTask(getActivity().getApplicationContext(), true).execute();
     }
 
     @Override
