@@ -38,7 +38,7 @@ function initApp() {
 function startListening() {
   var user = firebase.auth().currentUser;
   if (user == null) {
-    //return;
+    return;
   }
   var userId = user.uid;
   var ref = firebase.database().ref('/user_group/users/' + userId + "/notify_pc/");
