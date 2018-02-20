@@ -28,6 +28,7 @@
     <string name="pref_notifications_ringtone_title">Sound</string>
     <string name="pref_notifications_ringtone_sub_text_none">Silent</string>
     <string name="pref_notifications_vibrate_title">Vibrate</string>
+    <string name="pref_notifications_open_url">Open Link Immediately</string>
 
     <string name="pref_about_app_version">App Version</string>
     <string name="pref_about_reator_title">Created By</string>

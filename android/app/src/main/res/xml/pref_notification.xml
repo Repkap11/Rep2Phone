@@ -11,6 +11,12 @@
         android:key="pref_notifications_notify"
         android:title="@string/pref_notifications_notify" />
 
+    <SwitchPreference
+        android:defaultValue="true"
+        android:dependency="pref_notifications_enabled"
+        android:key="pref_notifications_open_url"
+        android:title="@string/pref_notifications_open_url" />
+
     <RingtonePreference
         android:defaultValue="@string/pref_notifications_ringtone_default"
         android:dependency="pref_notifications_enabled"
@@ -22,7 +28,7 @@
         android:defaultValue="true"
         android:dependency="pref_notifications_enabled"
         android:key="pref_notifications_vibrate"
-        android:title="@string/pref_notifications_vibrate_title" />\
+        android:title="@string/pref_notifications_vibrate_title" />
 
 </PreferenceScreen>
 

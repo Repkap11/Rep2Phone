@@ -44,6 +44,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     public static final String PREF_NOTIFICATIONS_RINGTONE = "pref_notifications_ringtone";
     public static final String PREF_NOTIFICATIONS_VIBRATE = "pref_notifications_vibrate";
     public static final String PREF_NOTIFICATIONS_NOTIFY = "pref_notifications_notify";
+    public static final String PREF_NOTIFICATIONS_OPEN_URL = "pref_notifications_open_url";
+
 
     public static final String PREF_APP_VERSION = "pref_app_version";
     public static final String PREF_APP_BUILD_FLAVOR = "pref_app_build_flavor";
@@ -222,6 +224,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             ((SettingsActivity) getActivity()).bindPreferenceSummaryToValue(findPreference(PREF_NOTIFICATIONS_NOTIFY), false);
             ((SettingsActivity) getActivity()).bindPreferenceSummaryToValue(findPreference(PREF_NOTIFICATIONS_RINGTONE), true);
             ((SettingsActivity) getActivity()).bindPreferenceSummaryToValue(findPreference(PREF_NOTIFICATIONS_VIBRATE), false);
+            ((SettingsActivity) getActivity()).bindPreferenceSummaryToValue(findPreference(PREF_NOTIFICATIONS_OPEN_URL), false);
+
         }
 
         @Override
