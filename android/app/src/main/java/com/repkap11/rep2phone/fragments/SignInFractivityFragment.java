@@ -1,10 +1,14 @@
 package com.repkap11.rep2phone.fragments;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.Toolbar;
@@ -57,6 +61,7 @@ public class SignInFractivityFragment extends Fractivity.FractivityFragment impl
     private SignInButton mSignInButton;
     private boolean mSignedIn;
     private TextView mSignedInDisplayName;
+    private Button mButtonOpenDozeSettings;
 
     @Override
     protected void create(Bundle savedInstanceState) {
@@ -100,9 +105,44 @@ public class SignInFractivityFragment extends Fractivity.FractivityFragment impl
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        boolean showButton = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PowerManager pm = (PowerManager) getActivity().getSystemService(Context.POWER_SERVICE);
+            if (pm != null && mButtonOpenDozeSettings != null) {
+                showButton = true;
+                boolean enableButton = pm.isIgnoringBatteryOptimizations(getActivity().getPackageName());
+                mButtonOpenDozeSettings.setEnabled(enableButton);
+                if (enableButton) {
+                    mButtonOpenDozeSettings.setText(getResources().getString(R.string.fractivity_sign_in_doze_no_warning));
+                } else {
+                    mButtonOpenDozeSettings.setText(getResources().getString(R.string.fractivity_sign_in_doze_warning));
+                }
+            }
+        }
+        mButtonOpenDozeSettings.setVisibility(showButton ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fractivity_sign_in, container, false);
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.fractivity_bar_menu_app_bar_layout);
+        mButtonOpenDozeSettings = (Button) rootView.findViewById(R.id.fractivity_sign_in_doze_button);
+        mButtonOpenDozeSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                    try {
+                        getActivity().startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+
+                    }
+                }
+            }
+        });
         toolbar.setTitle(R.string.fractivity_sign_in_title);
         setHasOptionsMenu(true);
         ((Fractivity) getActivity()).setSupportActionBar(toolbar);

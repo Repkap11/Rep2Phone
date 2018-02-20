@@ -41,21 +41,49 @@
             android:text="@string/fractivity_sign_in_message"
             android:textSize="30sp" />
 
+        <TextView
+            android:id="@+id/fractivity_sign_in_display_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fractivity_sign_in_message"
+            android:layout_centerHorizontal="true"
+            android:gravity="start"
+
+            android:padding="20dp"
+            android:textSize="20sp" />
+
         <com.google.android.gms.common.SignInButton
             android:id="@+id/sign_in_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true" />
-        <TextView
-            android:id="@+id/fractivity_sign_in_display_name"
-            android:layout_width="match_parent"
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:gravity="start"
-            android:padding="20dp"
-            android:textSize="20sp" />
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/fractivity_sign_in_doze_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/fractivity_sign_in_doze_no_warning" />
+
+            <TextView
+                android:id="@+id/fractivity_sign_in_doze_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/fractivity_sign_in_doze_message" />
+
+
+        </LinearLayout>
+
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -36,5 +36,8 @@
 
     <string name="root_key">user_group</string>
     <string name="fractivity_sign_in_signed_in_as">Signed in as: %s</string>
+    <string name="fractivity_sign_in_doze_message">Doze battery optimizations may cause notifications to be missed</string>
+    <string name="fractivity_sign_in_doze_warning">Doze Off: App should work</string>
+    <string name="fractivity_sign_in_doze_no_warning">Doze On: App will NOT work reliably</string>
 
 </resources>
