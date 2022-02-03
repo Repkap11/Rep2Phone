@@ -9,12 +9,6 @@ const admin = require('firebase-admin');
 // event.data is DeltaSnapshot
 exports.trigger_notify =
     function trigger_notify(event, context) {
-        console.log('We got event!');
-        var ref = event.after.ref;
-
-        console.error("Event: String: " + JSON.stringify(event, null, 4));
-        console.error("Event: keys: " + Object.keys(ref).join(" "));
-        console.error("Event: prop: " + Object.getOwnPropertyNames(ref).join(" "));
         var allRemovePromises = [];
         var allDevicesPromises = [];
         event.after.forEach(function(uniqSnapshot) {
