@@ -1,14 +1,11 @@
 package com.repkap11.rep2phone.activities;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -17,7 +14,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.repkap11.rep2phone.Rep2PhoneApplication;
 import com.repkap11.rep2phone.R;
 import com.repkap11.rep2phone.activities.base.Fractivity;
@@ -48,7 +44,6 @@ public class SignInFractivity extends Fractivity {
         mAuth = FirebaseAuth.getInstance();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        String instanceToken = FirebaseInstanceId.getInstance().getToken();
         boolean result = Rep2PhoneApplication.getUserPerferedNotoficationsEnabled(this);
         Rep2PhoneApplication.updateDeviceToken(this, result);
         //Log.e(TAG, "instanceToken:" + instanceToken);

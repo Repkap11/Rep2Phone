@@ -9,15 +9,17 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
 
+import androidx.appcompat.app.AlertDialog;
+
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.repkap11.rep2phone.activities.SettingsActivity;
 
 /**
@@ -103,25 +105,32 @@ public class Rep2PhoneApplication extends Application {
     public static void updateDeviceToken(Context context, boolean add) {
         String userKey = getUserKey(context);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String newInstanceToken = FirebaseInstanceId.getInstance().getToken();
-        if (newInstanceToken == null || userKey == null) {
-            Log.e(TAG, "Unable to upload user token user:" + user + " instanceId:" + newInstanceToken);
-            return;
-        }
-        final SharedPreferences prefs = context.getSharedPreferences(REP2PHONE_PREF_GROUP, Context.MODE_PRIVATE);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference userRef = database.getReference(userKey);
 
-        String previousInstanceToken = prefs.getString("current-instance-id", null);
-        if (!newInstanceToken.equals(previousInstanceToken) && previousInstanceToken != null) {
-            userRef.child("devices").child(previousInstanceToken).removeValue();
-        }
-        if (add) {
-            userRef.child("devices").child(newInstanceToken).setValue("");
-        } else {
-            userRef.child("devices").child(newInstanceToken).removeValue(null);
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(new OnSuccessListener<String>() {
+            @Override
+            public void onSuccess(String result) {
+                String newInstanceToken = result;
 
-        }
+                if (newInstanceToken == null || userKey == null) {
+                    Log.e(TAG, "Unable to upload user token user:" + user + " instanceId:" + newInstanceToken);
+                    return;
+                }
+                final SharedPreferences prefs = context.getSharedPreferences(REP2PHONE_PREF_GROUP, Context.MODE_PRIVATE);
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference userRef = database.getReference(userKey);
+
+                String previousInstanceToken = prefs.getString("current-instance-id", null);
+                if (!newInstanceToken.equals(previousInstanceToken) && previousInstanceToken != null) {
+                    userRef.child("devices").child(previousInstanceToken).removeValue();
+                }
+                if (add) {
+                    userRef.child("devices").child(newInstanceToken).setValue("");
+                } else {
+                    userRef.child("devices").child(newInstanceToken).removeValue(null);
+                }
+
+            }
+        });
     }
 
     public static String getGroupKey(Context context) {

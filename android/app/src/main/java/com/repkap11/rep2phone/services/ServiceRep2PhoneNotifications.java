@@ -6,20 +6,19 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
-import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.repkap11.rep2phone.Rep2PhoneApplication;
 import com.repkap11.rep2phone.R;
+import com.repkap11.rep2phone.Rep2PhoneApplication;
 import com.repkap11.rep2phone.activities.SettingsActivity;
-import com.repkap11.rep2phone.activities.SignInFractivity;
 
 import java.util.Map;
 import java.util.Random;
@@ -102,5 +101,11 @@ public class ServiceRep2PhoneNotifications extends FirebaseMessagingService {
         }
     }
 
-
+    @Override
+    public void onNewToken(@NonNull String s) {
+        super.onNewToken(s);
+        //Log.e(TAG, "Token Changed!");
+        boolean notificationsEnabled = Rep2PhoneApplication.getUserPerferedNotoficationsEnabled(this);
+        Rep2PhoneApplication.updateDeviceToken(this, notificationsEnabled);
+    }
 }

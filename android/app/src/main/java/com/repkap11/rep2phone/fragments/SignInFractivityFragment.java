@@ -9,9 +9,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -36,16 +36,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.repkap11.rep2phone.R;
 import com.repkap11.rep2phone.Rep2PhoneApplication;
 import com.repkap11.rep2phone.UpdateAppTask;
 import com.repkap11.rep2phone.activities.SettingsActivity;
 import com.repkap11.rep2phone.activities.SignInFractivity;
 import com.repkap11.rep2phone.activities.base.Fractivity;
-
-import org.w3c.dom.Text;
 
 /**
  * Created by paul on 8/8/17.
