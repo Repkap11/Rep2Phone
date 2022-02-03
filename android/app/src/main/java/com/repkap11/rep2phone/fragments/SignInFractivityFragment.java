@@ -9,9 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -21,14 +18,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -46,14 +45,13 @@ import com.repkap11.rep2phone.activities.base.Fractivity;
 /**
  * Created by paul on 8/8/17.
  */
-public class SignInFractivityFragment extends Fractivity.FractivityFragment implements GoogleApiClient.OnConnectionFailedListener {
+public class SignInFractivityFragment extends Fractivity.FractivityFragment {
     public static final String STARTING_INTENT_WHICH_LUNCH_GROUP = "com.repkap11.rep2phone.STARTING_INTENT_WHICH_LUNCH_GROUP";
     private static final String TAG = SignInFractivityFragment.class.getSimpleName();
     private static final int REQUEST_CODE_ASK_FOR_WRITE_EXPERNAL_PERMISSION = 44;
 
-    private GoogleApiClient mGoogleApiClient;
+    private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
-    private String mLunchGroup;
     private SignInButton mSignInButton;
     private boolean mSignedIn;
     private TextView mSignedInDisplayName;
@@ -63,6 +61,23 @@ public class SignInFractivityFragment extends Fractivity.FractivityFragment impl
     protected void create(Bundle savedInstanceState) {
         mAuth = FirebaseAuth.getInstance();
         mSignedIn = mAuth.getCurrentUser() != null;
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso);
+        mGoogleSignInClient.silentSignIn().addOnCompleteListener(new OnCompleteListener<GoogleSignInAccount>() {
+            @Override
+            public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
+                try {
+                    GoogleSignInAccount account = task.getResult(ApiException.class);
+                    firebaseAuthWithGoogle(account);
+                } catch (ApiException e) {
+                    Log.e(TAG, "Silent sign in failed");
+                }
+            }
+        });
     }
 
     @Override
@@ -155,16 +170,6 @@ public class SignInFractivityFragment extends Fractivity.FractivityFragment impl
                 }
             }
         });
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleApiClient = new GoogleApiClient.Builder(
-                getActivity())
-                .enableAutoManage(getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-        continueAfterSignIn(mSignedIn, mSignedIn ? mAuth.getCurrentUser().getDisplayName() : null);
         return rootView;
     }
 
@@ -173,13 +178,8 @@ public class SignInFractivityFragment extends Fractivity.FractivityFragment impl
         mSignInButton = null;
     }
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
-
     private void signIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         getActivity().startActivityForResult(signInIntent, SignInFractivity.REQUEST_CODE_SIGN_IN);
     }
 
@@ -249,16 +249,13 @@ public class SignInFractivityFragment extends Fractivity.FractivityFragment impl
 
     private void signOut() {
         Rep2PhoneApplication.updateDeviceToken(getActivity(), false);
-        FirebaseAuth.getInstance().signOut();
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+        mAuth.signOut();
+
+        mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onResult(@NonNull Status status) {
-                //Intent intent = new Intent(getActivity(), SignInFractivity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //startActivity(intent);
+            public void onComplete(@NonNull Task<Void> task) {
                 continueAfterSignIn(false, null);
             }
         });
     }
-
 }

@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "952267240108-onhf49ohvf8m69k06cl8h14qmig98trh.apps.googleusercontent.com",
+          "client_id": "952267240108-1kn4anag13dlor2at2a585rps7pbiibp.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.repkap11.rep2phone",
-            "certificate_hash": "606992a76bc525bd4f22c27821ccc0250306dd0c"
+            "certificate_hash": "89096e6a2f9f0c195ecb4ed015bf5d2078031547"
           }
         },
         {
@@ -33,20 +33,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
               "client_id": "952267240108-d84usmtcfckorek2pll5cg3mic6e4bhm.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

@@ -59,6 +59,7 @@ public class ServiceRep2PhoneNotifications extends FirebaseMessagingService {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         if (openUrl) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
