@@ -8,46 +8,50 @@ const admin = require('firebase-admin');
 // event is Event (in our case a DeltaSnapshot type event
 // event.data is DeltaSnapshot
 exports.trigger_notify =
-    function trigger_notify(event) {
-  console.log('We got event!');
-  // console.error(event.data.current.val());
-  var allRemovePromises = [];
-  var allDevicesPromises = [];
-  event.data.current.forEach(function(uniqSnapshot) {
-    var message = uniqSnapshot.val();
-    console.log('Got uniq:' + uniqSnapshot.key + ' val:' + message);
+    function trigger_notify(event, context) {
+        console.log('We got event!');
+        var ref = event.after.ref;
 
-    allDevicesPromises.push(
-        event.data.ref.parent.child('devices').once('value').then(
-            function(devicesSnapshot) {
-              var allDevicePromise = [];
-              devicesSnapshot.forEach(function(deviceSnapshot) {
-                console.error('Will notify device:' + deviceSnapshot.key);
-                var title = 'Opening Link';
-                const payload = {
-                  data: {
-                    title: title,
-                    body: message,
-                  }
-                };
-                allDevicePromise.push(
-                    admin.messaging().sendToDevice(
-                        deviceSnapshot.key, payload));
-              });
-              return Promise.all(allDevicePromise);
-            }));
-    allRemovePromises.push(uniqSnapshot.ref.remove());
-  });
-  return Promise.all(
-      [Promise.all(allRemovePromises), Promise.all(allDevicesPromises)]);
-}
-// exports.trigger_notify = function trigger_notify(event) {
-//   // When a user changes their preference for any day, we get a message here
-//   // console.log('You changed ',event.params.userId, '\'s lunch pref ',
-//   // event.data.ref.key, ' from ', event.data.previous.val(),' to ',
-//   // event.data.current.val());
-//   // Figure out which lunch preference they are no longer picking for that
-//   day.
+        console.error("Event: String: " + JSON.stringify(event, null, 4));
+        console.error("Event: keys: " + Object.keys(ref).join(" "));
+        console.error("Event: prop: " + Object.getOwnPropertyNames(ref).join(" "));
+        var allRemovePromises = [];
+        var allDevicesPromises = [];
+        event.after.forEach(function(uniqSnapshot) {
+            var message = uniqSnapshot.val();
+            console.log('Got uniq:' + uniqSnapshot.key + ' val:' + message);
+
+            allDevicesPromises.push(
+                event.after.ref.parent.child('devices').once('value').then(
+                    function(devicesSnapshot) {
+                        var allDevicePromise = [];
+                        devicesSnapshot.forEach(function(deviceSnapshot) {
+                            console.error('Will notify device:' + deviceSnapshot.key);
+                            var title = 'Opening Link';
+                            const payload = {
+                                data: {
+                                    title: title,
+                                    body: message,
+                                }
+                            };
+                            allDevicePromise.push(
+                                admin.messaging().sendToDevice(
+                                    deviceSnapshot.key, payload));
+                        });
+                        return Promise.all(allDevicePromise);
+                    }));
+            allRemovePromises.push(uniqSnapshot.ref.remove());
+        });
+        return Promise.all(
+            [Promise.all(allRemovePromises), Promise.all(allDevicesPromises)]);
+    }
+    // exports.trigger_notify = function trigger_notify(event) {
+    //   // When a user changes their preference for any day, we get a message here
+    //   // console.log('You changed ',event.params.userId, '\'s lunch pref ',
+    //   // event.data.ref.key, ' from ', event.data.previous.val(),' to ',
+    //   // event.data.current.val());
+    //   // Figure out which lunch preference they are no longer picking for that
+    //   day.
 
 //   var val_previous = event.data.previous.val();
 //   var allChanges = [];

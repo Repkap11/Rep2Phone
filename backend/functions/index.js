@@ -10,4 +10,4 @@ admin.initializeApp(functions.config().firebase);
 var trigger_notify = require('./trigger_notify');
 exports.trigger_notify =
     functions.database.ref('/user_group/users/{userId}/notify_phone')
-        .onWrite(event => {return trigger_notify.trigger_notify(event)});
+    .onWrite((event, context) => { return trigger_notify.trigger_notify(event, context) });
